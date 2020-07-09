@@ -1,7 +1,7 @@
 // CONNECTION TO MONGODB
 const mongoose = require('mongoose');
 // Link for connecting to right mongodb collection
-const MONGODB_URI = 'mongodb+srv://JonathanDom:Moriarty_12@cluster0-gno51.mongodb.net/BlogPost';
+const MONGODB_URI = '<DATEBASE>';
 // Make connection pass in parrameters of database 
 mongoose.connect(MONGODB_URI||'mongodb://localhost:27017/BlogPost', {useNewUrlParser: true, useUnifiedTopology: true},(err) =>{
     // if no error then prints the following

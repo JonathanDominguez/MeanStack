@@ -21,5 +21,15 @@ export class BlogsService {
     return this.http.post(this.baseURL, blg);
   }
 
+  getBlogsList() {
+    return this.http.get(this.baseURL);
+  }
 
+  putBlog(blg : Blogs){
+    return this.http.put(this.baseURL + `/${blg._id}` , blg);
+  }
+
+  deleteBlog(_id: string){
+    return this.http.delete(this.baseURL + `/${_id}`);
+  }
 }

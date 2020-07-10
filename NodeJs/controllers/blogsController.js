@@ -48,21 +48,20 @@ router.post('/', (req,res)=>{
 });
 // UPDATE
 router.put('/:id', (req, res) => {
-    if (!ObjectId.isValid(req.params.id))
+    if (!ObjectId.isValid(req.params.id)){
         return res.status(400).send(`No record with given id : ${req.params.id}`);
-
+    }
     var emp = {
-        name: req.body.name,
-        position: req.body.position,
-        office: req.body.office,
-        salary: req.body.salary,
+        title: req.body.title,
+        date: req.body.date,
+        content: req.body.content,
     };
-    Employee.findByIdAndUpdate(req.params.id, { $set: emp }, { new: true }, (err, doc) => {
+    Blogs.findByIdAndUpdate(req.params.id, { $set: emp }, { new: true }, (err, doc) => {
         if (!err) { 
             res.send(doc); 
         }
         else { 
-            console.log('Error in Employee Update :' + JSON.stringify(err, undefined, 2)); 
+            console.log('Error in Blogs Update :' + JSON.stringify(err, undefined, 2)); 
         }
     });
 });
@@ -72,13 +71,13 @@ router.delete('/:id', (req, res) => {
     if (!ObjectId.isValid(req.params.id))
         return res.status(400).send(`No record with given id : ${req.params.id}`);
     // Now to delete
-    Employee.findByIdAndRemove(req.params.id, (err, doc) => {
+    Blogs.findByIdAndRemove(req.params.id, (err, doc) => {
         //
         if (!err) { 
             res.send(doc); 
         }
         else { 
-            console.log('Error in Employee Delete :' + JSON.stringify(err, undefined, 2)); 
+            console.log('Error in Blogs Delete :' + JSON.stringify(err, undefined, 2)); 
         }
     });
 });

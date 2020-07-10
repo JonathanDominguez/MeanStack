@@ -1,4 +1,4 @@
-<h2>Blog</h2>
+<h2 id = "siteName">Blog</h2>
 
 <div class="container">
   <form #blogsForm="ngForm" ng-submit = "onSubmit(blogsForm)">
@@ -13,6 +13,7 @@
       <input type="text" name="title" #name="ngModel" [(ngModel)]="blogsService.selectedBlogs.title" placeholder="Enter title" required>
     </div>
   </div>
+
     <!-- Date label -->
   <div class="row">
     <div class="col-25">
@@ -37,10 +38,28 @@
 
   <!-- Buttons: Submit and reset -->
   <div class="buttonSection">
-    <button class="button1" type="button" (click) = "resetForm(blogsForm)">Reset</button>
     <button class="button1" type="submit" [disabled]="!blogsForm.valid" (click)= "onSubmit(blogsForm)">Submit</button>
+    <button class="button1" type="button" (click) = "resetForm(blogsForm)">Reset</button>
   </div>
-
   </form>
+</div>
+
+<div class = "allBlogs">
+  <div class = "singleBlog" *ngFor = "let blgs of blogsService.blogs">
+    <div>
+      <label id = "dataTitle">{{blgs.title}}</label>
+    </div>
+    <div>
+      <label id = "dataDate">{{blgs.date}}</label>
+    </div>
+    <div>
+      <label id = "dataContent">{{blgs.content}}</label>
+    </div>
+    <!-- Button -->
+    <div class = "delAndEdi">
+      <button id = "button2" (click) = "onEdit(blgs)">Edit</button>
+      <button id = "button2" (click) = "onDelete(blgs._id, blogsForm)">Delete</button>
+    </div>
+  </div>
 </div>
 

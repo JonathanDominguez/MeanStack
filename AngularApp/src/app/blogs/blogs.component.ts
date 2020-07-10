@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { BlogsService } from '../shared/blogs.service'
 import { Blogs } from '../shared/blogs.model'
@@ -8,7 +8,8 @@ import { NgForm } from '@angular/forms';
   selector: 'app-blogs',
   templateUrl: './blogs.component.html',
   styleUrls: ['./blogs.component.css'],
-  providers: [BlogsService]
+  providers: [BlogsService],
+  encapsulation: ViewEncapsulation.None
 })
 export class BlogsComponent implements OnInit {
 
@@ -16,6 +17,7 @@ export class BlogsComponent implements OnInit {
 
   ngOnInit(){
     this.resetForm();
+    this.refreshBlogList();
   }
 
   resetForm(form?: NgForm){
@@ -31,9 +33,41 @@ export class BlogsComponent implements OnInit {
   }
 
   onSubmit(form: NgForm){
-    this.blogsService.postBlogs(form.value).subscribe((res) =>{
-      this.resetForm(form);
-    });
-    alert("Blog has been sent!");
+    if(form.value._id ==""){
+      this.blogsService.postBlogs(form.value).subscribe((res) =>{
+        this.resetForm(form);
+        this.refreshBlogList();
+      });
+      alert("Blog has been sent!");
+    }
+    else{
+      this.blogsService.putBlog(form.value).subscribe((res) =>{
+        this.resetForm(form);
+        this.refreshBlogList();
+      });
+      alert("Updated Successfully");
+    }
   }
+
+  refreshBlogList(){
+    // what does the .subscribe do
+    this.blogsService.getBlogsList().subscribe((res)=>
+    {
+      this.blogsService.blogs = res as Blogs[];
+    });
+  }
+
+  onEdit(blg:Blogs){
+    this.blogsService.selectedBlogs = blg;
+  }
+
+  onDelete(_id: string, form: NgForm) {
+    if (confirm('Are you sure to delete this record ?') == true) {
+      this.blogsService.deleteBlog(_id).subscribe((res) => {
+        this.refreshBlogList();
+        this.resetForm(form);
+      });
+    }
+  }
+
 }
